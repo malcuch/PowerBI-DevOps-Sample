@@ -1,0 +1,11 @@
+{
+	  "tenantid": "281bc884-12b1-4979-b818-db2f99a53e8c",	
+	  "spid": "afa20738-aded-4d61-944e-d9ca4a0f8ca0",
+	  "spsecret": "",
+	  "pbigroup": "Fridge Monitoring Dev",
+	  "dir": "C:\\path\\to\\reports\\directory",
+	  "ds.dbserver": "sqlserver-frm-reporting-dev.database.windows.net",
+	  "ds.dbname": "sqldb-frm-reporting-dev",
+	  "ds.dbuser": "powerbi",
+	  "ds.dbpassword": ""
+}

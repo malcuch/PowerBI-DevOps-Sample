@@ -1,0 +1,30 @@
+trigger:
+  branches:
+    include:
+    - master
+    - develop
+    - feature/*
+    
+  paths:
+    include:
+    - devops/tools
+    - devops/build/reportDeployerPipeline.yaml
+
+pool:
+  vmImage: ubuntu-16.04
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: 'Build'
+  inputs:
+    command: publish
+    projects: '$(Build.SourcesDirectory)/devops/tools/src/ReportDeployer/ReportDeployer.sln'
+    publishWebProjects: false
+    zipAfterPublish: false
+    arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Bin Artifact'
+  inputs:
+    targetPath: $(Build.ArtifactStagingDirectory)/ReportDeployer
+    artifactName: ReportDeployer

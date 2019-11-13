@@ -1,0 +1,8 @@
+trigger: none
+
+stages:
+  - stage: DeployOnProd
+    jobs:
+    - template: templates/reports-deploy.yaml
+      parameters: 
+        environment: prod

@@ -1,0 +1,8 @@
+trigger: none
+
+stages:
+  - stage: DeployOnDev
+    jobs:
+    - template: templates/reports-deploy.yaml
+      parameters: 
+        environment: dev

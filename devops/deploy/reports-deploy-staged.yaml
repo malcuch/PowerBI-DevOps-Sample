@@ -1,0 +1,14 @@
+trigger: none
+
+stages:
+  - stage: DeployDev
+    jobs:
+    - template: templates/reports-deploy.yaml
+      parameters: 
+        environment: dev
+  - stage: DeployProd
+    dependsOn: DeployDev
+    jobs:
+    - template: templates/reports-deploy.yaml
+      parameters: 
+        environment: prod

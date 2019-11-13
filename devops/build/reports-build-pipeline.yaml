@@ -1,0 +1,21 @@
+trigger:
+  branches:
+    include:
+    - master
+    - develop
+    - feature/*
+    
+  paths:
+    include:
+    - src/bi/reports
+    - devops/build/reports-build-pipeline.yaml
+
+pool:
+  vmImage: ubuntu-16.04
+
+steps:
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish reports'
+  inputs:
+    targetPath: $(Build.SourcesDirectory)/src/bi/reports
+    artifactName: Reports

@@ -1,0 +1,18 @@
+[
+  {
+    "FileName": "DailyConsumption.pbix",
+    "Name": "Daily Consumption",
+    "CustomProperties" : {
+      "Category": "maintenance",
+      "Order": 0
+    }
+  },
+  {
+    "FileName": "Overview.pbix",
+    "Name": "Overview",
+    "CustomProperties" : {
+      "Category": "maintenance",
+      "Order": 1
+    }
+  }
+]

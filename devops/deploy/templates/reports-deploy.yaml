@@ -1,0 +1,45 @@
+
+parameters:
+  environment: ''
+
+
+jobs: 
+- deployment: DeployReports
+  variables: 
+    - group: reports-deploy-${{ parameters.environment }}
+  environment: ${{ parameters.environment }}
+  pool:
+    vmImage: ubuntu-latest
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - task: DownloadPipelineArtifact@2
+          displayName: 'Download Report Deployer'
+          inputs:
+            source: "specific"
+            project: 'faf3cc82-c278-4e08-b26b-e624a514ea79'
+            pipeline: '1'
+            runVersion: "latestFromBranch"
+            runBranch: $(Build.SourceBranch)
+            artifactName: ReportDeployer
+            path: $(Pipeline.Workspace)/Download/ReportDeployer
+
+        - task: DownloadPipelineArtifact@2
+          displayName: 'Download Report Files'
+          inputs:
+            source: "specific"
+            project: 'faf3cc82-c278-4e08-b26b-e624a514ea79'
+            pipeline: '3'
+            runVersion: "latestFromBranch"
+            runBranch: $(Build.SourceBranch)
+            artifactName: Reports
+            path: $(Pipeline.Workspace)/Download/Reports
+
+        - task: DotNetCoreCLI@2
+          displayName: 'Run Report Deployer'
+          inputs:
+            command: custom
+            custom: ReportDeployer.Console.dll
+            arguments: '--tenantid $(powerbi-tenant-id) --ds.dbserver $(reportingdb-servername) --ds.dbname $(reportingdb-databasename) --ds.dbuser $(reportingdb-report-username) --ds.dbpassword $(reportingdb-report-password) --pbigroup "$(powerbi-workspace-id)" --spid $(powerbi-client-id) --spsecret $(powerbi-client-secret) --insettings $(Pipeline.Workspace)/Download/Reports/reporting.settings.json --outsettings $(Build.ArtifactStagingDirectory)/reporting.settings.out.json'
+            workingDirectory: '$(Pipeline.Workspace)/Download/ReportDeployer'
